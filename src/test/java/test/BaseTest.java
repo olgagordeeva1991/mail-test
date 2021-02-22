@@ -2,7 +2,6 @@ package test;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -17,19 +16,22 @@ public class BaseTest {
 
     @BeforeClass
     public static void setUp() {
+        String runType = System.getenv("RUN_TYPE");
+        if (runType.equals("remote")) {
+            DesiredCapabilities capability = new DesiredCapabilities();
+            capability.setBrowserName("chrome");
+            try {
+                driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capability);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        } else if (runType.equals("local")) {
+            System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/test/resources/driver/chromedriver.exe");
 
-        DesiredCapabilities capability = new DesiredCapabilities();
-        capability.setBrowserName("chrome");
+            driver = new ChromeDriver();
 
-//        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/test/resources/driver/chromedriver.exe");
-//
-//        driver = new ChromeDriver();
-
-        try {
-            driver= new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capability);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         }
+
         driver.get("https://mail.ru/");
     }
 
