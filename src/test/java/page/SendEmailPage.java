@@ -3,49 +3,42 @@ package page;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class SendEmailPage {
-    WebDriverWait waitForForm;
+public class SendEmailPage extends BasePage {
+
     By formLocator = By.name("to");
     By subjectLocator = By.name("subjectbox");
-    private WebDriver driver;
-    JavascriptExecutor js = (JavascriptExecutor) driver;
-    private String dataTo = "noname@gmail.com";
-    private String dataSubject = "Тестовое задание";
-    private String dataMessage = "Hello, we found %d messages from %s";
-    private String dataFrom = "Илья email";
     @FindBy(xpath = "//*[@id=\"app-canvas\"]/div/div[1]/div[1]/div/div[2]/span/div[1]/div[1]/div/div/div/div[1]/div/div/a/span/span/svg")
     private WebElement writeLetterBtn;
-    @FindBy(xpath = "//*[@id=\"app-canvas\"]/div/div[1]/div[1]/div/div[2]/span/div[1]/div[1]")
+    @FindBy(className = "text--1czzf")
     private WebElement to;
-    @FindBy(xpath = "/html/body/div[15]/div[2]/div/div[1]/div[2]/div[3]/div[3]/div[1]/div[2]/div/input")
+    @FindBy(className = "Subject")
     private WebElement subject;
-    @FindBy(xpath = "/html/body/div[15]/div[2]/div/div[1]/div[2]/div[3]/div[5]")
+    @FindBy(className = "cke_widget_wrapper cke_widget_block cke_widget_signature")
     private WebElement message;
-    @FindBy(xpath = "/html/body/div[15]/div[2]/div/div[2]/div[1]/span[1]/span/span")
+    @FindBy(className = "button2__txt")
     private WebElement sendBtn;
 
     public SendEmailPage(WebDriver driver) {
-        this.driver = driver;
-        waitForForm = new WebDriverWait(driver, 10);
+        super(driver);
     }
 
     public void openForm() {
+        writeLetterBtn.click();
         to.click();
-        waitForForm.until(ExpectedConditions.presenceOfElementLocated(formLocator));
+        wait.until(ExpectedConditions.presenceOfElementLocated(formLocator));
     }
 
-    public void fillFieldTo() {
-        to.sendKeys(dataTo);
+    public void fillFieldTo(String dataTo) {
+        fillField(to, dataTo);
     }
 
     public void openSubjectForm() {
         driver.findElement(subjectLocator);
     }
 
-    public void fillSubject() {
-        subject.sendKeys(dataSubject);
+    public void fillSubject(String dataSubject) {
+        fillField(subject, dataSubject);
     }
 
     public void fillMessageField() {
@@ -61,7 +54,7 @@ public class SendEmailPage {
                 .findElement(By.cssSelector("span.ts:last-child")).getText();
         ;
         js.executeScript("arguments[0].innerHTML=arguments[1] + arguments[0].innerHTML;", message,
-                String.format(dataMessage, Integer.parseInt(result), dataFrom));
+                String.format(message, Integer.parseInt(result), dataFrom));
 
         subject.sendKeys(Keys.chord(Keys.LEFT_CONTROL, Keys.ENTER));
     }
