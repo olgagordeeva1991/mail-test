@@ -1,7 +1,7 @@
 package test;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -14,8 +14,8 @@ public class BaseTest {
 
     public static WebDriver driver;
 
-    @BeforeClass
-    public static void setUp() {
+    @Before
+    public void setUp() {
         String runType = System.getenv("RUN_TYPE");
         if (runType.equals("remote")) {
             DesiredCapabilities capability = new DesiredCapabilities();
@@ -36,8 +36,8 @@ public class BaseTest {
         driver.get("https://mail.ru/");
     }
 
-    @AfterClass
-    public static void cleanUp() {
+    @After
+    public void cleanUp() {
         if (driver != null)
             driver.quit();
     }

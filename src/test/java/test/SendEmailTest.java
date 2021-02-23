@@ -11,8 +11,8 @@ import page.SignUpPage;
 public class SendEmailTest extends BaseTest {
     private String dataLogin = "gordeeva1991@mail.ru";
     private String dataPassword = System.getenv("password");
-    private String dataFrom = "alina.work@shukurov.com";
-    private String dataTo = "alina.work@shukurov.com";
+    private String dataFrom = "djsanych@gmail.com";
+    private String dataTo = "djsanych@gmail.com";
     private String dataSubject = "Тестовое задание. Гордеева";
 
     @Test
@@ -30,7 +30,7 @@ public class SendEmailTest extends BaseTest {
         searchLettersPage.inputSearchData(dataFrom);
         searchLettersPage.clickOnSearchBtn();
         int letters = searchLettersPage.countLetters();
-        String dataMessage = "Добрый день, найдено " + letters + " писем от " + dataFrom;
+        String dataMessage = "Добрый день, найдено " + letters + " писем(письма)";
 
         SendEmailPage sendEmailPage = PageFactory.initElements(driver, SendEmailPage.class);
         sendEmailPage.openForm();
