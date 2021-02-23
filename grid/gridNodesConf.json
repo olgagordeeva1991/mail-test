@@ -20,6 +20,6 @@
   "downPollingLimit": 2,
   "debug": false,
   "servlets": [],
-"withoutServlets": [],
-"custom": {}
+  "withoutServlets": [],
+  "custom": {}
 }
